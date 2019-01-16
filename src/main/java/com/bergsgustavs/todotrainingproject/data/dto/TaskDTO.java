@@ -1,46 +1,22 @@
-package com.bergsgustavs.todotrainingproject.data.domain;
+package com.bergsgustavs.todotrainingproject.data.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import java.io.Serializable;
 
-import javax.persistence.*;
+public class TaskDTO implements Serializable {
 
-@Entity
-@Table(name = "Tasks")
-public class Task {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     Long id;
 
-    @Column(name = "NAME")
     String name;
 
-    @Column(name = "DESCRIPTION")
     String description;
 
-    @Column(name = "STARTING_DATE")
     String startingDate;
 
-    @Column(name = "ENDING_DATE")
     String endingDate;
 
-    @Column(name = "STARTING_TIME")
     String startingTime;
 
-    @Column(name = "ENDING_TIME")
     String endingTime;
-
-    public Task(String name, String description, String startingDate, String endingDate, String startingTime, String endingTime) {
-        this.name = name;
-        this.description = description;
-        this.startingDate = startingDate;
-        this.endingDate = endingDate;
-        this.startingTime = startingTime;
-        this.endingTime = endingTime;
-    }
-
-    public Task(){
-    }
 
     public Long getId() {
         return id;

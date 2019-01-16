@@ -28,15 +28,15 @@ public class TaskService {
 
     /** Creates new tasks using given values
      *
-     * @param name
-     * @param description
+     * @param newTask
      * @return task
      */
 
-    public Task createTask(String name, String description, String startDate, String endDate, String startTime, String endTime){
+    public Task createTask(Task newTask){
 
-        Task task = new Task(name, description, startDate, endDate, startTime, endTime);
+        Task task = newTask;
         taskRepository.save(task);
+
         return task;
     }
 
@@ -50,6 +50,7 @@ public class TaskService {
      */
 
     public Task updateTask(Long id, String newName, String newDescription) throws Exception {
+
         Task taskToUpdate = taskRepository.getOne(id);
         if(taskToUpdate == null){
             throw new Exception("Task not found!");
