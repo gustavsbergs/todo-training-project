@@ -5,8 +5,6 @@ import com.bergsgustavs.todotrainingproject.data.repositories.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.validation.constraints.Null;
-
 @Service
 public class TaskService {
 
@@ -35,9 +33,9 @@ public class TaskService {
      * @return task
      */
 
-    public Task createTask(String name, String description){
+    public Task createTask(String name, String description, String startDate, String endDate, String startTime, String endTime){
 
-        Task task = new Task(name, description);
+        Task task = new Task(name, description, startDate, endDate, startTime, endTime);
         taskRepository.save(task);
         return task;
     }
@@ -52,12 +50,28 @@ public class TaskService {
      */
 
     public Task updateTask(Long id, String newName, String newDescription) throws Exception {
-        Task taskToUpdate = taskRepository.findById(id).orElse(null);
+        Task taskToUpdate = taskRepository.getOne(id);
         if(taskToUpdate == null){
             throw new Exception("Task not found!");
         }
         taskToUpdate.setDescription(newDescription);
         taskToUpdate.setName(newName);
-        return taskToUpdate;
+
+        taskRepository.save(taskToUpdate);
+
+        return taskRepository.findById(id).orElse(null);
+    }
+
+    /**
+     * Delete task by id.
+     * @param id
+     * @throws Exception
+     */
+    public void deleteTask(Long id) throws Exception {
+        Task taskToDelete = taskRepository.findById(id).orElse(null);
+        if(taskToDelete == null){
+            throw new Exception("Task not found or already deleted!");
+        }
+        taskRepository.deleteById(id);
     }
 }

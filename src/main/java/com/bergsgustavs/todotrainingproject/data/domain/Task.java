@@ -1,9 +1,12 @@
 package com.bergsgustavs.todotrainingproject.data.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "Tasks")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Task {
 
     @Id
@@ -16,9 +19,25 @@ public class Task {
     @Column(name = "DESCRIPTION")
     String description;
 
-    public Task(String description, String name){
-        this.description = description;
+    @Column(name = "STARTING_DATE")
+    String startingDate;
+
+    @Column(name = "ENDING_DATE")
+    String endingDate;
+
+    @Column(name = "STARTING_TIME")
+    String startingTime;
+
+    @Column(name = "ENDING_TIME")
+    String endingTime;
+
+    public Task(String name, String description, String startingDate, String endingDate, String startingTime, String endingTime) {
         this.name = name;
+        this.description = description;
+        this.startingDate = startingDate;
+        this.endingDate = endingDate;
+        this.startingTime = startingTime;
+        this.endingTime = endingTime;
     }
 
     public Task(){
@@ -46,5 +65,37 @@ public class Task {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getStartingDate() {
+        return startingDate;
+    }
+
+    public void setStartingDate(String startingDate) {
+        this.startingDate = startingDate;
+    }
+
+    public String getEndingDate() {
+        return endingDate;
+    }
+
+    public void setEndingDate(String endingDate) {
+        this.endingDate = endingDate;
+    }
+
+    public String getStartingTime() {
+        return startingTime;
+    }
+
+    public void setStartingTime(String startingTime) {
+        this.startingTime = startingTime;
+    }
+
+    public String getEndingTime() {
+        return endingTime;
+    }
+
+    public void setEndingTime(String endingTime) {
+        this.endingTime = endingTime;
     }
 }
