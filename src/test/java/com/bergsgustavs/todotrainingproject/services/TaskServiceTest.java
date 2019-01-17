@@ -11,7 +11,8 @@ import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.internal.verification.VerificationModeFactory.times;
@@ -66,6 +67,7 @@ public class TaskServiceTest {
 
     @Test
     public void updateTask() throws Exception {
+
         Task task = new Task(name, description, startingDate, endingDate, startingTime, endingTime);
         task.setId(id);
         Optional<Task> taskOptional = Optional.of(task);
@@ -83,6 +85,7 @@ public class TaskServiceTest {
 
     @Test
     public void deleteTask() throws Exception {
+
         Task task = new Task();
         task.setId(id);
         Optional<Task> taskOptional = Optional.of(task);

@@ -4,9 +4,27 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>JSP - Hello World Tutorial - Programmer Gate</title>
+<style>
+table, th, td {
+    border: 1px solid black;
+}
+</style>
+<title>Simple table</title>
 </head>
 <body>
-<%= "Hello World!" %>
+    <table>
+      <tr>
+        <th>Task</th>
+        <th>Description</th>
+        <th>Start</th>
+        <th>End</th>
+      </tr>
+      <tr>
+        <td>Name of task</td>
+        <td>Description of task</td>
+        <td>Today at 1</td>
+        <td>Tomorrow at 2</td>
+      </tr>
+    </table>
 </body>
 </html>

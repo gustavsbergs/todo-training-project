@@ -43,7 +43,7 @@ public class Task {
         this.endingTime = endingTime;
     }
 
-    public Task(){
+    public Task() {
     }
 
     public Long getId() {

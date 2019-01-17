@@ -8,6 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
 
 @RestController
 public class TaskController {
@@ -37,7 +42,7 @@ public class TaskController {
         return dtoMapper.TaskToDTO(newTask);
     }
 
-    @PutMapping (value = "/tasks/{id}", produces = "application/json")
+    @PutMapping(value = "/tasks/{id}", produces = "application/json")
     public TaskDTO updateTask(@RequestBody TaskDTO taskParams, @PathVariable Long id) throws Exception {
 
         Task updatedTask = taskService.updateTask(id, taskParams.getName(), taskParams.getDescription());
@@ -47,8 +52,17 @@ public class TaskController {
 
     @GetMapping(value = "/tasks/delete/{id}", produces = "application/json")
     @ResponseStatus(value = HttpStatus.OK)
-    public void deleteTask(@PathVariable Long id) throws Exception{
+    public void deleteTask(@PathVariable Long id) throws Exception {
 
         taskService.deleteTask(id);
+    }
+
+    @GetMapping(value = "/tasks", produces = "application/json")
+    public List<TaskDTO> getAllTasks() throws Exception {
+        final List<Task> listOfTasks = taskService.returnAll();
+
+        return listOfTasks.stream()
+                .map(dtoMapper::TaskToDTO)
+                .collect(Collectors.toList());
     }
 }

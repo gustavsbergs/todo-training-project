@@ -1,8 +1,12 @@
 package com.bergsgustavs.todotrainingproject.services;
 
 import com.bergsgustavs.todotrainingproject.data.domain.Task;
+import com.bergsgustavs.todotrainingproject.data.dto.TaskDTO;
 import com.bergsgustavs.todotrainingproject.data.repositories.TaskRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class TaskService {
@@ -19,7 +23,7 @@ public class TaskService {
      * @param taskId
      * @return task
      */
-    public Task getTask(Long taskId) throws Exception {
+    public Task getTask(final Long taskId) throws Exception {
 
         final Task task = taskRepository.findById(taskId).orElse(null);
 
@@ -34,13 +38,8 @@ public class TaskService {
      * @param newTask
      * @return task
      */
-    public Task createTask(Task newTask){
-
-        final Task task = newTask;
-
-        taskRepository.save(task);
-
-        return task;
+    public Task createTask(final Task newTask){
+        return taskRepository.save(newTask);
     }
 
     /** Updates tasks by given id
@@ -51,7 +50,7 @@ public class TaskService {
      * @return Task
      * @throws Exception
      */
-    public Task updateTask(Long id, String newName, String newDescription) throws Exception {
+    public Task updateTask(final Long id, final String newName, final String newDescription) throws Exception {
 
         final Task taskToUpdate = taskRepository.getOne(id);
 
@@ -71,7 +70,7 @@ public class TaskService {
      * @param id
      * @throws Exception
      */
-    public void deleteTask(Long id) throws Exception {
+    public void deleteTask(final Long id) throws Exception {
 
         final Task taskToDelete = taskRepository.findById(id).orElse(null);
 
@@ -79,5 +78,12 @@ public class TaskService {
             throw new Exception("Task not found or already deleted!");
         }
         taskRepository.deleteById(id);
+    }
+
+    /**
+     * Method that returns an ArrayList of all tasks!
+     */
+    public List<Task> returnAll () throws Exception {
+        return taskRepository.findAll();
     }
 }

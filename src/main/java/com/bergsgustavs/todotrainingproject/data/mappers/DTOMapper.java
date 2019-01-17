@@ -7,13 +7,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class DTOMapper {
 
-	public TaskDTO TaskToDTO(Task task) throws Exception {
+	public TaskDTO TaskToDTO(Task task){
 		final TaskDTO mappedTask = new TaskDTO();
 
 		if (task.getId() != null) {
 			mappedTask.setId(task.getId());
-		} else {
-			throw new Exception("ERROR: No ID found for the task!");
 		}
 		if (task.getName() != null) {
 			mappedTask.setName(task.getName());
@@ -36,13 +34,11 @@ public class DTOMapper {
 		return mappedTask;
 	}
 
-	public Task DTOToTask(TaskDTO task) throws Exception {
+	public Task DTOToTask(TaskDTO task) {
 		final Task mappedTask = new Task();
 
 		if (task.getId() != null) {
 			mappedTask.setId(task.getId());
-		} else {
-			throw new Exception("ERROR: No ID found for the task.");
 		}
 		if (task.getName() != null) {
 			mappedTask.setName(task.getName());
