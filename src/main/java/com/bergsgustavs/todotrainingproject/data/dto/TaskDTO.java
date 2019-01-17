@@ -1,28 +1,29 @@
 package com.bergsgustavs.todotrainingproject.data.dto;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 public class TaskDTO implements Serializable {
 
-    Long id;
+    private Long id;
 
-    String name;
+    private String name;
 
-    String description;
+    private String description;
 
-    String startingDate;
+    private String startingDate;
 
-    String endingDate;
+    private String endingDate;
 
-    String startingTime;
+    private String startingTime;
 
-    String endingTime;
+    private String endingTime;
 
     public Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(final Long id) {
         this.id = id;
     }
 
@@ -30,7 +31,7 @@ public class TaskDTO implements Serializable {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(final String name) {
         this.name = name;
     }
 
@@ -38,7 +39,7 @@ public class TaskDTO implements Serializable {
         return description;
     }
 
-    public void setDescription(String description) {
+    public void setDescription(final String description) {
         this.description = description;
     }
 
@@ -46,7 +47,7 @@ public class TaskDTO implements Serializable {
         return startingDate;
     }
 
-    public void setStartingDate(String startingDate) {
+    public void setStartingDate(final String startingDate) {
         this.startingDate = startingDate;
     }
 
@@ -54,7 +55,7 @@ public class TaskDTO implements Serializable {
         return endingDate;
     }
 
-    public void setEndingDate(String endingDate) {
+    public void setEndingDate(final String endingDate) {
         this.endingDate = endingDate;
     }
 
@@ -62,7 +63,7 @@ public class TaskDTO implements Serializable {
         return startingTime;
     }
 
-    public void setStartingTime(String startingTime) {
+    public void setStartingTime(final String startingTime) {
         this.startingTime = startingTime;
     }
 
@@ -70,7 +71,39 @@ public class TaskDTO implements Serializable {
         return endingTime;
     }
 
-    public void setEndingTime(String endingTime) {
+    public void setEndingTime(final String endingTime) {
         this.endingTime = endingTime;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TaskDTO taskDTO = (TaskDTO) o;
+        return id.equals(taskDTO.id) &&
+                name.equals(taskDTO.name) &&
+                description.equals(taskDTO.description) &&
+                startingDate.equals(taskDTO.startingDate) &&
+                endingDate.equals(taskDTO.endingDate) &&
+                startingTime.equals(taskDTO.startingTime) &&
+                endingTime.equals(taskDTO.endingTime);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, description, startingDate, endingDate, startingTime, endingTime);
+    }
+
+    @Override
+    public String toString() {
+        return "TaskDTO{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", startingDate='" + startingDate + '\'' +
+                ", endingDate='" + endingDate + '\'' +
+                ", startingTime='" + startingTime + '\'' +
+                ", endingTime='" + endingTime + '\'' +
+                '}';
     }
 }

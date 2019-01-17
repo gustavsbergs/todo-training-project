@@ -1,8 +1,12 @@
 package com.bergsgustavs.todotrainingproject.data.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import java.util.Objects;
 
 @Entity
 @Table(name = "Tasks")
@@ -10,27 +14,27 @@ public class Task {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    Long id;
+    private Long id;
 
     @Column(name = "NAME")
-    String name;
+    private String name;
 
     @Column(name = "DESCRIPTION")
-    String description;
+    private String description;
 
     @Column(name = "STARTING_DATE")
-    String startingDate;
+    private String startingDate;
 
     @Column(name = "ENDING_DATE")
-    String endingDate;
+    private String endingDate;
 
     @Column(name = "STARTING_TIME")
-    String startingTime;
+    private String startingTime;
 
     @Column(name = "ENDING_TIME")
-    String endingTime;
+    private String endingTime;
 
-    public Task(String name, String description, String startingDate, String endingDate, String startingTime, String endingTime) {
+    public Task(final String name, final String description, final String startingDate, final String endingDate, final String startingTime, final String endingTime) {
         this.name = name;
         this.description = description;
         this.startingDate = startingDate;
@@ -46,7 +50,7 @@ public class Task {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(final Long id) {
         this.id = id;
     }
 
@@ -54,7 +58,7 @@ public class Task {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(final String name) {
         this.name = name;
     }
 
@@ -62,7 +66,7 @@ public class Task {
         return description;
     }
 
-    public void setDescription(String description) {
+    public void setDescription(final String description) {
         this.description = description;
     }
 
@@ -70,7 +74,7 @@ public class Task {
         return startingDate;
     }
 
-    public void setStartingDate(String startingDate) {
+    public void setStartingDate(final String startingDate) {
         this.startingDate = startingDate;
     }
 
@@ -78,7 +82,7 @@ public class Task {
         return endingDate;
     }
 
-    public void setEndingDate(String endingDate) {
+    public void setEndingDate(final String endingDate) {
         this.endingDate = endingDate;
     }
 
@@ -86,7 +90,7 @@ public class Task {
         return startingTime;
     }
 
-    public void setStartingTime(String startingTime) {
+    public void setStartingTime(final String startingTime) {
         this.startingTime = startingTime;
     }
 
@@ -94,7 +98,39 @@ public class Task {
         return endingTime;
     }
 
-    public void setEndingTime(String endingTime) {
+    public void setEndingTime(final String endingTime) {
         this.endingTime = endingTime;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Task task = (Task) o;
+        return id.equals(task.id) &&
+                name.equals(task.name) &&
+                description.equals(task.description) &&
+                startingDate.equals(task.startingDate) &&
+                endingDate.equals(task.endingDate) &&
+                startingTime.equals(task.startingTime) &&
+                endingTime.equals(task.endingTime);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, description, startingDate, endingDate, startingTime, endingTime);
+    }
+
+    @Override
+    public String toString() {
+        return "Task{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", startingDate='" + startingDate + '\'' +
+                ", endingDate='" + endingDate + '\'' +
+                ", startingTime='" + startingTime + '\'' +
+                ", endingTime='" + endingTime + '\'' +
+                '}';
     }
 }

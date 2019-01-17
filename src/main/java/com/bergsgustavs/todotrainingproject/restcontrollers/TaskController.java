@@ -12,13 +12,16 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class TaskController {
 
-    @Autowired
-    TaskService taskService;
+    private TaskService taskService;
 
-    @Autowired
-    DTOMapper dtoMapper;
+    private DTOMapper dtoMapper;
 
-    @GetMapping(value = "/task/get/{id}", produces = "application/json")
+    public TaskController(final TaskService taskService, final DTOMapper dtoMapper) {
+        this.taskService = taskService;
+        this.dtoMapper = dtoMapper;
+    }
+
+    @GetMapping(value = "/tasks/{id}", produces = "application/json")
     public TaskDTO getTask(@PathVariable Long id) throws Exception {
 
         Task returnTask = taskService.getTask(id);
@@ -26,14 +29,15 @@ public class TaskController {
         return dtoMapper.TaskToDTO(returnTask);
     }
 
-    @PostMapping(value = "/task/create", produces = "application/json")
-    public TaskDTO createTask(@RequestBody TaskDTO taskParams){
+    @PostMapping(value = "/tasks/new", produces = "application/json")
+    public TaskDTO createTask(@RequestBody TaskDTO taskParams) throws Exception {
+
         Task newTask = taskService.createTask(dtoMapper.DTOToTask(taskParams));
 
         return dtoMapper.TaskToDTO(newTask);
     }
 
-    @PostMapping(value = "/task/update/{id}", produces = "application/json")
+    @PutMapping (value = "/tasks/{id}", produces = "application/json")
     public TaskDTO updateTask(@RequestBody TaskDTO taskParams, @PathVariable Long id) throws Exception {
 
         Task updatedTask = taskService.updateTask(id, taskParams.getName(), taskParams.getDescription());
@@ -41,7 +45,7 @@ public class TaskController {
         return dtoMapper.TaskToDTO(updatedTask);
     }
 
-    @GetMapping(value = "/task/delete/{id}", produces = "application/json")
+    @GetMapping(value = "/tasks/delete/{id}", produces = "application/json")
     @ResponseStatus(value = HttpStatus.OK)
     public void deleteTask(@PathVariable Long id) throws Exception{
 

@@ -2,15 +2,17 @@ package com.bergsgustavs.todotrainingproject.services;
 
 import com.bergsgustavs.todotrainingproject.data.domain.Task;
 import com.bergsgustavs.todotrainingproject.data.repositories.TaskRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class TaskService {
 
-    @Autowired
-    TaskRepository taskRepository;
 
+    private TaskRepository taskRepository;
+
+    public TaskService(TaskRepository taskRepository) {
+        this.taskRepository = taskRepository;
+    }
 
     /** Returns tasks by id.
      *
@@ -19,11 +21,12 @@ public class TaskService {
      */
     public Task getTask(Long taskId) throws Exception {
 
-        Task returnTask = taskRepository.findById(taskId).orElse(null);
-        if(returnTask == null){
+        final Task task = taskRepository.findById(taskId).orElse(null);
+
+        if(task == null){
             throw new Exception("Task not found!");
         }
-        return returnTask;
+        return task;
     }
 
     /** Creates new tasks using given values
@@ -31,10 +34,10 @@ public class TaskService {
      * @param newTask
      * @return task
      */
-
     public Task createTask(Task newTask){
 
-        Task task = newTask;
+        final Task task = newTask;
+
         taskRepository.save(task);
 
         return task;
@@ -48,10 +51,10 @@ public class TaskService {
      * @return Task
      * @throws Exception
      */
-
     public Task updateTask(Long id, String newName, String newDescription) throws Exception {
 
-        Task taskToUpdate = taskRepository.getOne(id);
+        final Task taskToUpdate = taskRepository.getOne(id);
+
         if(taskToUpdate == null){
             throw new Exception("Task not found!");
         }
@@ -69,7 +72,9 @@ public class TaskService {
      * @throws Exception
      */
     public void deleteTask(Long id) throws Exception {
-        Task taskToDelete = taskRepository.findById(id).orElse(null);
+
+        final Task taskToDelete = taskRepository.findById(id).orElse(null);
+
         if(taskToDelete == null){
             throw new Exception("Task not found or already deleted!");
         }
