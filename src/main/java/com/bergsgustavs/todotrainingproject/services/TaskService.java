@@ -1,16 +1,14 @@
 package com.bergsgustavs.todotrainingproject.services;
 
 import com.bergsgustavs.todotrainingproject.data.domain.Task;
-import com.bergsgustavs.todotrainingproject.data.dto.TaskDTO;
 import com.bergsgustavs.todotrainingproject.data.repositories.TaskRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
 public class TaskService {
-
 
     private TaskRepository taskRepository;
 
@@ -42,23 +40,24 @@ public class TaskService {
         return taskRepository.save(newTask);
     }
 
-    /** Updates tasks by given id
-     *
+    /**
+     * Updates task from data object using id
      * @param id
-     * @param newName
-     * @param newDescription
+     * @param task
      * @return Task
      * @throws Exception
      */
-    public Task updateTask(final Long id, final String newName, final String newDescription) throws Exception {
+    public Task updateTask(Long id, Task task) throws Exception {
 
         final Task taskToUpdate = taskRepository.getOne(id);
 
         if(taskToUpdate == null){
             throw new Exception("Task not found!");
         }
-        taskToUpdate.setDescription(newDescription);
-        taskToUpdate.setName(newName);
+        taskToUpdate.setDescription(task.getDescription());
+        taskToUpdate.setName(task.getName());
+        taskToUpdate.setStartingDate(task.getStartingDate());
+        taskToUpdate.setEndingDate(task.getEndingDate());
 
         taskRepository.save(taskToUpdate);
 
@@ -84,6 +83,12 @@ public class TaskService {
      * Method that returns an ArrayList of all tasks!
      */
     public List<Task> returnAll () throws Exception {
-        return taskRepository.findAll();
+        List<Task> allTasks = taskRepository.findAll();
+        sortByDate(allTasks);
+        return allTasks;
+    }
+
+    public void sortByDate (final List<Task> tasks) {
+       Collections.sort(tasks);
     }
 }

@@ -1,16 +1,21 @@
 package com.bergsgustavs.todotrainingproject.data.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+
+
 import javax.persistence.Column;
-import javax.persistence.Id;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import java.util.Date;
 import java.util.Objects;
 
 @Entity
 @Table(name = "Tasks")
-public class Task {
+public class Task implements Comparable<Task>{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -23,24 +28,18 @@ public class Task {
     private String description;
 
     @Column(name = "STARTING_DATE")
-    private String startingDate;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date startingDate;
 
     @Column(name = "ENDING_DATE")
-    private String endingDate;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date endingDate;
 
-    @Column(name = "STARTING_TIME")
-    private String startingTime;
-
-    @Column(name = "ENDING_TIME")
-    private String endingTime;
-
-    public Task(final String name, final String description, final String startingDate, final String endingDate, final String startingTime, final String endingTime) {
+    public Task(final String name, final String description, final Date startingDate, final Date endingDate) {
         this.name = name;
         this.description = description;
         this.startingDate = startingDate;
         this.endingDate = endingDate;
-        this.startingTime = startingTime;
-        this.endingTime = endingTime;
     }
 
     public Task() {
@@ -70,36 +69,20 @@ public class Task {
         this.description = description;
     }
 
-    public String getStartingDate() {
+    public Date getStartingDate() {
         return startingDate;
     }
 
-    public void setStartingDate(final String startingDate) {
+    public void setStartingDate(final Date startingDate) {
         this.startingDate = startingDate;
     }
 
-    public String getEndingDate() {
+    public Date getEndingDate() {
         return endingDate;
     }
 
-    public void setEndingDate(final String endingDate) {
+    public void setEndingDate(final Date endingDate) {
         this.endingDate = endingDate;
-    }
-
-    public String getStartingTime() {
-        return startingTime;
-    }
-
-    public void setStartingTime(final String startingTime) {
-        this.startingTime = startingTime;
-    }
-
-    public String getEndingTime() {
-        return endingTime;
-    }
-
-    public void setEndingTime(final String endingTime) {
-        this.endingTime = endingTime;
     }
 
     @Override
@@ -107,18 +90,16 @@ public class Task {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Task task = (Task) o;
-        return id.equals(task.id) &&
-                name.equals(task.name) &&
-                description.equals(task.description) &&
-                startingDate.equals(task.startingDate) &&
-                endingDate.equals(task.endingDate) &&
-                startingTime.equals(task.startingTime) &&
-                endingTime.equals(task.endingTime);
+        return Objects.equals(id, task.id) &&
+                Objects.equals(name, task.name) &&
+                Objects.equals(description, task.description) &&
+                Objects.equals(startingDate, task.startingDate) &&
+                Objects.equals(endingDate, task.endingDate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, description, startingDate, endingDate, startingTime, endingTime);
+        return Objects.hash(id, name, description, startingDate, endingDate);
     }
 
     @Override
@@ -127,10 +108,16 @@ public class Task {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
-                ", startingDate='" + startingDate + '\'' +
-                ", endingDate='" + endingDate + '\'' +
-                ", startingTime='" + startingTime + '\'' +
-                ", endingTime='" + endingTime + '\'' +
+                ", startingDate=" + startingDate +
+                ", endingDate=" + endingDate +
                 '}';
+    }
+
+    @Override
+    public int compareTo(Task task){
+        if(task.getStartingDate() == null || getStartingDate() == null) {
+            return 0;
+        }
+        return getStartingDate().compareTo(task.getStartingDate());
     }
 }

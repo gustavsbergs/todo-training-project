@@ -7,6 +7,8 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
@@ -22,10 +24,6 @@ public class TaskServiceTest {
     private Long id = 1L;
     private String name = "123name";
     private String description = "123description";
-    private String startingDate = "123date";
-    private String endingDate = "date123";
-    private String startingTime = "time123";
-    private String endingTime = "123time";
 
     @Mock
     TaskRepository taskRepository;
@@ -60,7 +58,7 @@ public class TaskServiceTest {
         Task task = new Task();
         task.setId(id);
 
-        Task newTask = taskService.createTask(task);
+        taskService.createTask(task);
 
         verify(taskRepository, times(1)).save(any());
     }
@@ -68,13 +66,19 @@ public class TaskServiceTest {
     @Test
     public void updateTask() throws Exception {
 
-        Task task = new Task(name, description, startingDate, endingDate, startingTime, endingTime);
+        Task task = new Task();
         task.setId(id);
+        task.setName(name);
+        task.setDescription(description);
         Optional<Task> taskOptional = Optional.of(task);
+
+        Task task2 = new Task();
+        task2.setName("updated");
+        task2.setDescription("updated");
 
         when(taskRepository.getOne(anyLong())).thenReturn(task);
         when(taskRepository.findById(anyLong())).thenReturn(taskOptional);
-        Task updatedTask = taskService.updateTask(id, "updated", "updated");
+        Task updatedTask = taskService.updateTask(id, task2);
 
         verify(taskRepository, times(1)).getOne(anyLong());
         verify(taskRepository, times(1)).save(any());

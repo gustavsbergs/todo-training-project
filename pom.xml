@@ -11,6 +11,7 @@
 	<groupId>com.bergsgustavs</groupId>
 	<artifactId>todo-training-project</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<packaging>war</packaging>
 	<name>todo-training-project</name>
 	<description>Training project for learning purposes.</description>
 
@@ -60,6 +61,13 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<configuration>
+					<webappDirectory>/sample/servlet/container/deploy/directory</webappDirectory>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>

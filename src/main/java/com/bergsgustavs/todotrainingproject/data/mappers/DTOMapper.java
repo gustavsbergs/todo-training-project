@@ -4,6 +4,9 @@ import com.bergsgustavs.todotrainingproject.data.domain.Task;
 import com.bergsgustavs.todotrainingproject.data.dto.TaskDTO;
 import org.springframework.stereotype.Component;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
 @Component
 public class DTOMapper {
 
@@ -20,21 +23,15 @@ public class DTOMapper {
 			mappedTask.setDescription(task.getDescription());
 		}
 		if (task.getStartingDate() != null) {
-			mappedTask.setStartingDate(task.getStartingDate());
+			mappedTask.setStartingDate(new SimpleDateFormat("yyyy-MM-dd HH:mm").format(task.getStartingDate()));
 		}
 		if (task.getEndingDate() != null) {
-			mappedTask.setEndingDate(task.getEndingDate());
-		}
-		if (task.getStartingTime() != null) {
-			mappedTask.setStartingTime(task.getStartingTime());
-		}
-		if (task.getEndingTime() != null) {
-			mappedTask.setEndingTime(task.getEndingTime());
+			mappedTask.setEndingDate(new SimpleDateFormat("yyyy-MM-dd HH:mm").format(task.getEndingDate()));
 		}
 		return mappedTask;
 	}
 
-	public Task DTOToTask(TaskDTO task) {
+	public Task DTOToTask(TaskDTO task) throws ParseException {
 		final Task mappedTask = new Task();
 
 		if (task.getId() != null) {
@@ -47,16 +44,10 @@ public class DTOMapper {
 			mappedTask.setDescription(task.getDescription());
 		}
 		if (task.getStartingDate() != null) {
-			mappedTask.setStartingDate(task.getStartingDate());
+			mappedTask.setStartingDate(new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(task.getStartingDate()));
 		}
 		if (task.getEndingDate() != null) {
-			mappedTask.setEndingDate(task.getEndingDate());
-		}
-		if (task.getStartingTime() != null) {
-			mappedTask.setStartingTime(task.getStartingTime());
-		}
-		if (task.getEndingTime() != null) {
-			mappedTask.setEndingTime(task.getEndingTime());
+			mappedTask.setEndingDate(new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(task.getEndingDate()));
 		}
 		return mappedTask;
 	}

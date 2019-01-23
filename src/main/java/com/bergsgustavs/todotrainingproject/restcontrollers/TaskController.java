@@ -4,15 +4,11 @@ import com.bergsgustavs.todotrainingproject.data.domain.Task;
 import com.bergsgustavs.todotrainingproject.data.dto.TaskDTO;
 import com.bergsgustavs.todotrainingproject.data.mappers.DTOMapper;
 import com.bergsgustavs.todotrainingproject.services.TaskService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Function;
 import java.util.stream.Collectors;
-
 
 @RestController
 public class TaskController {
@@ -34,7 +30,7 @@ public class TaskController {
         return dtoMapper.TaskToDTO(returnTask);
     }
 
-    @PostMapping(value = "/tasks/new", produces = "application/json")
+    @PostMapping(value = "/tasks/new", produces = "application/json", consumes = "application/json")
     public TaskDTO createTask(@RequestBody TaskDTO taskParams) throws Exception {
 
         Task newTask = taskService.createTask(dtoMapper.DTOToTask(taskParams));
@@ -42,15 +38,15 @@ public class TaskController {
         return dtoMapper.TaskToDTO(newTask);
     }
 
-    @PutMapping(value = "/tasks/{id}", produces = "application/json")
+    @PutMapping(value = "/tasks/update/{id}", produces = "application/json" , consumes = "application/json")
     public TaskDTO updateTask(@RequestBody TaskDTO taskParams, @PathVariable Long id) throws Exception {
 
-        Task updatedTask = taskService.updateTask(id, taskParams.getName(), taskParams.getDescription());
+        Task updatedTask = taskService.updateTask(id, dtoMapper.DTOToTask(taskParams));
 
         return dtoMapper.TaskToDTO(updatedTask);
     }
 
-    @GetMapping(value = "/tasks/delete/{id}", produces = "application/json")
+    @DeleteMapping(value = "/tasks/delete/{id}", produces = "application/json")
     @ResponseStatus(value = HttpStatus.OK)
     public void deleteTask(@PathVariable Long id) throws Exception {
 
