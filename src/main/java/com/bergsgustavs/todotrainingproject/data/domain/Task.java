@@ -115,9 +115,9 @@ public class Task implements Comparable<Task>{
 
     @Override
     public int compareTo(Task task){
-        if(task.getStartingDate() == null || getStartingDate() == null) {
+        if(task.getEndingDate() == null || getEndingDate() == null) {
             return 0;
         }
-        return getStartingDate().compareTo(task.getStartingDate());
+        return getEndingDate().compareTo(task.getEndingDate());
     }
 }

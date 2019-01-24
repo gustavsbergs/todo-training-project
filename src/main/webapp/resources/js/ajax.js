@@ -10,54 +10,34 @@ function retrieveTask() {
             success: function (data) {
                 $(data).each(
                     function () {
+
+                        //TR for single task
                         var row = document.createElement("TR");
                         row.setAttribute("class", "tr")
-                        var nameTd = document.createElement("TD");
-                        nameTd.setAttribute("class", "td");
-                        var name = document.createTextNode(this.name);
-                        nameTd.appendChild(name);
+
+                        //TD for task name
+                        var nameTd = createTD("class", "td", this.name);
                         row.appendChild(nameTd);
 
-                        var descriptionTd = document.createElement("TD");
-                        descriptionTd.setAttribute("class", "td");
-                        var description = document.createTextNode(this.description);
-                        descriptionTd.appendChild(description);
+                        //TD for task description
+                        var descriptionTd = createTD("class", "td", this.description);
                         row.appendChild(descriptionTd);
 
-                        var sDateTd = document.createElement("TD");
-                        sDateTd.setAttribute("class", "td");
-                        var sDate = document.createTextNode(this.startingDate);
-                        sDateTd.appendChild(sDate);
+                        //TD for starting date and time
+                        var sDateTd = createTD("class", "td", this.startingDate);
                         row.appendChild(sDateTd);
 
-                        var eDateTd = document.createElement("TD");
-                        eDateTd.setAttribute("class", "td");
-                        var eDate = document.createTextNode(this.endingDate);
-                        eDateTd.appendChild(eDate);
+                        //TD for ending date and time
+                        var eDateTd = createTD("class", "td", this.endingDate);
                         row.appendChild(eDateTd);
 
-                        var delButtonTd = document.createElement("TD");
-                        delButtonTd.setAttribute("class", "td");
-                        var deleteCurrent = document.createElement("BUTTON");
-                        var deleteButtonName = document.createTextNode("DELETE");
-                        deleteCurrent.setAttribute("id", this.id);
-                        deleteCurrent.setAttribute("class", "tableDeleteButton");
-                        deleteCurrent.setAttribute("onclick","deleteTask("+deleteCurrent.getAttribute("id")+")");
-
-                        deleteCurrent.appendChild(deleteButtonName);
-                        delButtonTd.appendChild(deleteCurrent);
-                        row.appendChild(delButtonTd);
-
-                        var updateButtonTd = document.createElement("TD");
-                        updateButtonTd.setAttribute("class", "td");
-                        var updateButton = document.createElement("BUTTON");
-                        var updateButtonName = document.createTextNode("UPDATE");
-                        updateButton.setAttribute("id", this.id);
-                        updateButton.setAttribute("class", "tableUpdateButton")
-                        updateButton.setAttribute("onclick", "updateModal("+updateButton.getAttribute("id")+")");
-                        updateButton.appendChild(updateButtonName);
-                        updateButtonTd.appendChild(updateButton);
+                        //Update button for task row.
+                        var updateButtonTd = createUpdateButton(this.id);
                         row.appendChild(updateButtonTd);
+
+                        //Delete button for task row.
+                        var delButtonTd = createDeleteButton(this.id);
+                        row.appendChild(delButtonTd);
 
                         document.getElementById("tbody").appendChild(row);
                     }
@@ -69,7 +49,208 @@ function retrieveTask() {
         }
     );
 }
+//Function that creates update button
+function createUpdateButton(id){
+    var updateButtonTd = document.createElement("TD");
+    updateButtonTd.setAttribute("class", "td");
+    var updateButton = document.createElement("BUTTON");
+    var updateButtonName = document.createTextNode("UPDATE");
+    updateButton.setAttribute("id", id);
+    updateButton.setAttribute("class", "tableUpdateButton")
+    updateButton.setAttribute("onclick", "updateModal("+updateButton.getAttribute("id")+")");
+    updateButton.appendChild(updateButtonName);
+    updateButtonTd.appendChild(updateButton);
 
+    return updateButtonTd;
+}
+//Function that creates delete button
+function createDeleteButton(id){
+    var delButtonTd = document.createElement("TD");
+    delButtonTd.setAttribute("class", "td");
+    var deleteCurrent = document.createElement("BUTTON");
+    var deleteButtonName = document.createTextNode("DELETE");
+    deleteCurrent.setAttribute("id", id);
+    deleteCurrent.setAttribute("class", "tableDeleteButton");
+    deleteCurrent.setAttribute("onclick","deleteTask("+deleteCurrent.getAttribute("id")+")");
+    deleteCurrent.appendChild(deleteButtonName);
+    delButtonTd.appendChild(deleteCurrent);
+
+    return delButtonTd;
+}
+//Function that creates a TD with 1 attribute value
+function createTD(attributeType, attributeValue, value){
+    var td = document.createElement("TD");
+    td.setAttribute(attributeType, attributeValue);
+    var tdValue = document.createTextNode(value);
+    td.appendChild(tdValue);
+    return td;
+}
+
+//Validates and creates data for a new task
+function createTask(name, description, startDate, startHours, startMinutes, endDate, endHours, endMinutes) {
+    if (startDate != "" && endDate != "" && name != "" && description != "") {
+        var startingDateAndTime = startDate + " " + startHours + ":" + startMinutes;
+        var endingDateAndTime = endDate + " " + endHours + ":" + endMinutes;
+        var validatedName = name;
+        var validatedDescription = description;
+        createAjax(validatedName, validatedDescription, startingDateAndTime, endingDateAndTime);
+    } else {
+        alert("Please input valid data!");
+
+    }
+}
+
+//Validates and creates data for updating a task
+function updateTask(name, description, startDate, startHours, startMinutes, endDate, endHours, endMinutes) {
+    if (startDate != "" && endDate != "" && name != "" && description != "") {
+        var startingDateAndTime = startDate + " " + startHours + ":" + startMinutes;
+        var endingDateAndTime = endDate + " " + endHours + ":" + endMinutes;
+        var validatedName = name;
+        var validatedDescription = description;
+        updateAjax(validatedName, validatedDescription, startingDateAndTime, endingDateAndTime);
+    } else {
+        alert("Please input valid data!");
+
+    }
+}
+
+//Listener
+//Controls slider and value output for create a new task starting time slider
+function createStartSlider(){
+    var slider = document.getElementById("hourRangeStart");
+    var output = document.getElementById("hourValueStart");
+    var amOrPm = document.getElementById("timeOfDayCreateStart");
+    output.innerHTML = slider.value;
+
+    slider.oninput = function() {
+        if(this.value.length == 1) {
+            output.innerHTML = 0 + this.value;
+        } else {
+            output.innerHTML = this.value;
+        }
+        if(this.value < 12){
+            amOrPm.innerHTML = "  AM";
+        } else {
+            amOrPm.innerHTML = "  PM";
+        }
+    };
+
+    var slider2 = document.getElementById("minuteRangeStart");
+    var output2 = document.getElementById("minuteValueStart");
+    output2.innerHTML = slider2.value;
+
+    slider2.oninput = function() {
+        if(this.value.length == 1) {
+            output2.innerHTML = 0 + this.value;
+        } else {
+            output2.innerHTML = this.value;
+        }
+    }
+}
+
+//Listener
+//Controls slider and value output for create a new task ending time slider
+function createEndSlider(){
+    var slider = document.getElementById("hourRangeEnd");
+    var output = document.getElementById("hourValueEnd");
+    var amOrPm = document.getElementById("timeOfDayCreateEnd");
+    output.innerHTML = slider.value;
+
+    slider.oninput = function() {
+        if(this.value.length == 1) {
+            output.innerHTML = 0 + this.value;
+        } else {
+            output.innerHTML = this.value;
+        }
+        if(this.value < 12){
+            amOrPm.innerHTML = "  AM";
+        } else {
+            amOrPm.innerHTML = "  PM";
+        }
+    };
+
+    var slider2 = document.getElementById("minuteRangeEnd");
+    var output2 = document.getElementById("minuteValueEnd");
+    output2.innerHTML = slider2.value;
+
+    slider2.oninput = function() {
+        if(this.value.length == 1) {
+            output2.innerHTML = 0 + this.value;
+        } else {
+            output2.innerHTML = this.value;
+        }
+    }
+}
+
+//Listener
+//Controls update task start time slider
+function updateStartSlider(){
+    var slider = document.getElementById("hourRangeStartUpdate");
+    var output = document.getElementById("hourValueStartUpdate");
+    var amOrPm = document.getElementById("timeOfDayUpdateStart");
+    output.innerHTML = slider.value;
+
+    slider.oninput = function() {
+        if(this.value.length == 1) {
+            output.innerHTML = 0 + this.value;
+        } else {
+            output.innerHTML = this.value;
+        }
+        if(this.value < 12){
+            amOrPm.innerHTML = "  AM";
+        } else {
+            amOrPm.innerHTML = "  PM";
+        }
+    };
+
+    var slider2 = document.getElementById("minuteRangeStartUpdate");
+    var output2 = document.getElementById("minuteValueStartUpdate");
+    output2.innerHTML = slider2.value;
+
+    slider2.oninput = function() {
+        if(this.value.length == 1) {
+            output2.innerHTML = 0 + this.value;
+        } else {
+            output2.innerHTML = this.value;
+        }
+    }
+}
+
+//Listener
+//Controls update task end time slider
+function updateEndSlider(){
+    var slider = document.getElementById("hourRangeEndUpdate");
+    var output = document.getElementById("hourValueEndUpdate");
+    var amOrPm = document.getElementById("timeOfDayUpdateEnd");
+    output.innerHTML = slider.value;
+
+    slider.oninput = function() {
+        if(this.value.length == 1) {
+            output.innerHTML = 0 + this.value;
+        } else {
+            output.innerHTML = this.value;
+        }
+        if(this.value < 12){
+            amOrPm.innerHTML = "  AM";
+        } else {
+            amOrPm.innerHTML = "  PM";
+        }
+    };
+
+    var slider2 = document.getElementById("minuteRangeEndUpdate");
+    var output2 = document.getElementById("minuteValueEndUpdate");
+    output2.innerHTML = slider2.value;
+
+    slider2.oninput = function() {
+        if(this.value.length == 1) {
+            output2.innerHTML = 0 + this.value;
+        } else {
+            output2.innerHTML = this.value;
+        }
+    }
+}
+
+//Listener
 //Deletes a task by ID.
 function deleteTask(id) {
     var url = "http://localhost:8080/tasks/delete/" + id;
@@ -93,8 +274,9 @@ function deleteTask(id) {
     }
 }
 
+//Listener
 //Updates a task with new name, description and date/time parameters
-function updateTask(name, description, startingDate, endingDate){
+function updateAjax(name, description, startingDate, endingDate){
     var url = "http://localhost:8080/tasks/update/"+currentToUpdate;
     $.ajax(
         {
@@ -117,22 +299,28 @@ function updateTask(name, description, startingDate, endingDate){
     );
 }
 
-//Creates a new task
-function createTask(name, description, startDateAndTime, endDateAndTime) {
+//Listener
+//Creates new task by sending JSON to corresponding endpoint.
+function createAjax(name, description, startingDateAndTime, endingDateAndTime){
     $.ajax(
         {
             url: "http://localhost:8080/tasks/new",
             type: "POST",
             dataType: "JSON",
             headers: {
-                'Content-Type':'application/json'
+                'Content-Type': 'application/json'
             },
-            data: JSON.stringify({"name": name, "description": description, "startingDate" : startDateAndTime, "endingDate" : endDateAndTime}),
+            data: JSON.stringify({
+                "name": name,
+                "description": description,
+                "startingDate": startingDateAndTime,
+                "endingDate": endingDateAndTime
+            }),
             success: function () {
                 alert("Task created!");
-                window.location='http://localhost:8080/home';
+                window.location = 'http://localhost:8080/home';
             },
-            error: function(){
+            error: function () {
                 alert("Oops! Something went wrong!");
             }
 
@@ -140,6 +328,7 @@ function createTask(name, description, startDateAndTime, endDateAndTime) {
     );
 }
 
+//Listener
 //For task update modal control
 function updateModal(id){
     var modal = document.getElementById("modalForm");
@@ -147,12 +336,14 @@ function updateModal(id){
     currentToUpdate = id;
 }
 
+//Listener
 //For task creation modal control
 function createTaskModal(){
     var modal = document.getElementById("modalFormCreate");
     modal.style.display= "block";
 }
 
+//Listener
 //For task update modal closing span
 function onClickSpan(){
     var modal = document.getElementById("modalForm");
@@ -160,6 +351,7 @@ function onClickSpan(){
 
 }
 
+//Listener
 //For task creation modal closing span
 function onClickCreateSpan() {
     var modalCreate = document.getElementById("modalFormCreate");
