@@ -1,17 +1,17 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
          pageEncoding="ISO-8859-1" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
 <div>
 <h1 class="header">
     <pre>
-   __ __ _    _  _____ _______  __      _______             __  __           ___________ _   _  _____    _______        _____ _  __   _____  _               _   _ _   _ ______ _____
+  _____ _    _  _____ _______  __      _______             __  __           ___________ _   _  _____    _______        _____ _  __   _____  _               _   _ _   _ ______ _____
   / ____| |  | |/ ____|__   __|/\ \    / / ____|      /\   |  \/  |   /\    |___  /_   _| \ | |/ ____|  |__   __|/\    / ____| |/ /  |  __ \| |        /\   | \ | | \ | |  ____|  __ \
- | |  __| |  | | (___    | |  /  \ \  / / (___       /  \  | \  / |  /  \      / /  | | |  \| | |  __      | |  /  \  | (___ | ' /   | |__) | |       /  \  |  \| |  \| | |__  | |__) |
+  | |  __| |  | | (___    | |  /  \ \  / / (___       /  \  | \  / |  /  \      / /  | | |  \| | |  __      | |  /  \  | (___ | ' /   | |__) | |       /  \  |  \| |  \| | |__  | |__) |
  | | |_ | |  | |\___ \   | | / /\ \ \/ / \___ \     / /\ \ | |\/| | / /\ \    / /   | | | . ` | | |_ |     | | / /\ \  \___ \|  <    |  ___/| |      / /\ \ | . ` | . ` |  __| |  _  /
  | |__| | |__| |____) |  | |/ ____ \  /  ____) |   / ____ \| |  | |/ ____ \  / /__ _| |_| |\  | |__| |     | |/ ____ \ ____) | . \   | |    | |____ / ____ \| |\  | |\  | |____| | \ \
-  \_____|\____/|_____/   |_/_/    \_\/  |_____/   /_/    \_\_|  |_/_/    \_\/_____|_____|_| \_|\_____|     |_/_/    \_\_____/|_|\_\  |_|    |______/_/    \_\_| \_|_| \_|______|_|  \_\
+  \______|\____/|_____/   |_/_/    \_\/  |_____/   /_/    \_\_|  |_/_/    \_\/_____|_____|_| \_|\_____|     |_/_/    \_\_____/|_|\_\  |_|    |______/_/    \_\_| \_|_| \_|______|_|  \_\
 
     </pre>
 </h1>
@@ -19,6 +19,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
     <link rel="stylesheet" type="text/css" href="/resources/css/home.css"/>
+
     <spring:url value="/resources/js/ajax.js" var="ajaxJs"/>
 
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
@@ -28,11 +29,11 @@
             retrieveTask();
         });
     </script>
-    <title>Simple table</title>
+    <title>Task planner</title>
 </head>
 <body class="documentBody">
-<table id="tasks" class="tasks">
-    <thead>
+<table id="tasks" class="tasks" >
+    <thead id="tasksHead">
     <tr class="tr">
         <th class="th">TASK</th>
         <th class="th">DESCRIPTION</th>

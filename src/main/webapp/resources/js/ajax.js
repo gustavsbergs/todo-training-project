@@ -2,6 +2,7 @@ var currentToUpdate = 0;
 
 //Retrieves tasks from database and populates a dynamic table based on the amount of entries!
 function retrieveTask() {
+
     $.ajax(
         {
             url: "http://localhost:8080/tasks",
@@ -49,6 +50,16 @@ function retrieveTask() {
         }
     );
 }
+
+//Checks if any rows were created. If not, hides TH
+//Doesn't work in incognito mode
+function hideTh(){
+
+    if ($('#tasks > tbody > tr').length == 0){
+        $('#tasks').css('display','none');
+    }
+}
+
 //Function that creates update button
 function createUpdateButton(id){
     var updateButtonTd = document.createElement("TD");
@@ -63,6 +74,7 @@ function createUpdateButton(id){
 
     return updateButtonTd;
 }
+
 //Function that creates delete button
 function createDeleteButton(id){
     var delButtonTd = document.createElement("TD");
@@ -77,6 +89,7 @@ function createDeleteButton(id){
 
     return delButtonTd;
 }
+
 //Function that creates a TD with 1 attribute value
 function createTD(attributeType, attributeValue, value){
     var td = document.createElement("TD");
