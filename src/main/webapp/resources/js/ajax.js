@@ -1,5 +1,6 @@
 var currentToUpdate = 0;
 var deleteCalled = false;
+
 //Retrieves tasks from database and populates a dynamic table based on the amount of entries!
 function retrieveTask() {
 
@@ -336,12 +337,13 @@ function createAjax(name, description, startingDateAndTime, endingDateAndTime) {
 //For single task modal control
 function getSingleTask(id) {
 
-    var modal = document.getElementById("modalForm");
+    var modal2 = document.getElementById("modalForm");
 
-    if (modal.style.display === "block") {
+    if (modal2.style.display === "block") {
         return;
     }
-    if (deleteCalled === true){
+
+    if (deleteCalled === true) {
         deleteCalled = false;
         return;
     }
