@@ -36,7 +36,6 @@
     <thead id="tasksHead">
     <tr class="tr">
         <th class="th">TASK</th>
-        <th class="th">DESCRIPTION</th>
         <th class="th">START</th>
         <th class="th">END</th>
         <th class="th"></th>
@@ -147,6 +146,17 @@
             document.getElementById('minuteRangeStart').value, document.getElementById('newEndDate').value, document.getElementById('hourRangeEnd').value, document.getElementById('minuteRangeEnd').value)">
                 CREATE
             </button>
+        </div>
+    </div>
+</div>
+<div id="modalDisplay" class="modal">
+    <div id="modalDisplayContent" class="modal-content">
+        <span class="close" onclick="onClickGetSpan()">&times;</span>
+        <div id="formDisplayContent" class="modalContent">
+            <div id="formDisplayHeader" class="modalDisplayHeader">
+            </div>
+            <div id="formDisplayBody" class="modalDisplayBody">
+            </div>
         </div>
     </div>
 </div>
