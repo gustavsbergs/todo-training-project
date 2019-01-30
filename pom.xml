@@ -18,7 +18,6 @@
 	<properties>
 		<java.version>1.8</java.version>
 	</properties>
-
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -67,9 +66,20 @@
 				<artifactId>maven-war-plugin</artifactId>
 				<configuration>
 					<webappDirectory>/sample/servlet/container/deploy/directory</webappDirectory>
+					<webResources>
+						<resource>
+							<!-- this is relative to the pom.xml directory -->
+							<directory>src/main/webapp</directory>
+						</resource>
+					</webResources>
 				</configuration>
 			</plugin>
 		</plugins>
+		<!--<resources>
+			<resource>
+				<directory>src/main/webapp</directory>
+			</resource>
+		</resources>-->
 	</build>
 
 </project>
