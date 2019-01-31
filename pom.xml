@@ -62,18 +62,6 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
-			<!--<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-war-plugin</artifactId>
-				&lt;!&ndash;<configuration>
-					<webappDirectory>/sample/servlet/container/deploy/directory</webappDirectory>
-				</configuration>&ndash;&gt;
-			</plugin>-->
 		</plugins>
-	<!--	<resources>
-			<resource>
-				<directory>src/main/webapp</directory>
-			</resource>
-		</resources>-->
 	</build>
 </project>
