@@ -10,45 +10,37 @@ import java.text.SimpleDateFormat;
 @Component
 public class DTOMapper {
 
-	public TaskDTO TaskToDTO(Task task){
-		final TaskDTO mappedTask = new TaskDTO();
+    final private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
-		if (task.getId() != null) {
-			mappedTask.setId(task.getId());
-		}
-		if (task.getName() != null) {
-			mappedTask.setName(task.getName());
-		}
-		if (task.getDescription() != null) {
-			mappedTask.setDescription(task.getDescription());
-		}
-		if (task.getStartingDate() != null) {
-			mappedTask.setStartingDate(new SimpleDateFormat("yyyy-MM-dd HH:mm").format(task.getStartingDate()));
-		}
-		if (task.getEndingDate() != null) {
-			mappedTask.setEndingDate(new SimpleDateFormat("yyyy-MM-dd HH:mm").format(task.getEndingDate()));
-		}
-		return mappedTask;
-	}
+    public TaskDTO TaskToDTO(final Task task) {
+        final TaskDTO mappedTask = new TaskDTO();
 
-	public Task DTOToTask(TaskDTO task) throws ParseException {
-		final Task mappedTask = new Task();
+        mappedTask.setId(task.getId());
 
-		if (task.getId() != null) {
-			mappedTask.setId(task.getId());
-		}
-		if (task.getName() != null) {
-			mappedTask.setName(task.getName());
-		}
-		if (task.getDescription() != null) {
-			mappedTask.setDescription(task.getDescription());
-		}
-		if (task.getStartingDate() != null) {
-			mappedTask.setStartingDate(new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(task.getStartingDate()));
-		}
-		if (task.getEndingDate() != null) {
-			mappedTask.setEndingDate(new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(task.getEndingDate()));
-		}
-		return mappedTask;
-	}
+        mappedTask.setName(task.getName());
+
+        mappedTask.setDescription(task.getDescription());
+
+        mappedTask.setStartingDate(simpleDateFormat.format(task.getStartingDate()));
+
+        mappedTask.setEndingDate(simpleDateFormat.format(task.getEndingDate()));
+
+        return mappedTask;
+    }
+
+    public Task DTOToTask(final TaskDTO task) throws ParseException {
+        final Task mappedTask = new Task();
+
+        mappedTask.setId(task.getId());
+
+        mappedTask.setName(task.getName());
+
+        mappedTask.setDescription(task.getDescription());
+
+        mappedTask.setStartingDate(simpleDateFormat.parse(task.getStartingDate()));
+
+        mappedTask.setEndingDate(simpleDateFormat.parse(task.getEndingDate()));
+
+        return mappedTask;
+    }
 }

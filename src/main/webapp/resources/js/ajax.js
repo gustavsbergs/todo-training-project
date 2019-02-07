@@ -1,7 +1,7 @@
 var currentToUpdate = 0;
 var deleteCalled = false;
 
-//Retrieves tasks from database and populates a dynamic table based on the amount of entries!
+//Retrieves tasks from database and populates a dynamic table based on the amount of entries
 function retrieveTask() {
 
     $.ajax(
@@ -12,71 +12,67 @@ function retrieveTask() {
             success: function (data) {
                 $(data).each(
                     function () {
-                        //TR for single task
-                        var row = document.createElement("TR");
-                        row.setAttribute("id", this.id);
-                        row.setAttribute("class", "tr");
-                        row.setAttribute("onClick", "getSingleTask(" + row.getAttribute("id") + ")");
 
-                        //TD for task name
-                        var nameTd = createTD("class", "td", this.name);
-                        row.appendChild(nameTd);
-
-                        //TD for starting date and time
-                        var sDateTd = createTD("class", "td", this.startingDate);
-                        row.appendChild(sDateTd);
-
-                        //TD for ending date and time
-                        var eDateTd = createTD("class", "td", this.endingDate);
-                        row.appendChild(eDateTd);
-
-                        //Update button for task row.
-                        var updateButtonTd = createUpdateButton(this.id);
-                        row.appendChild(updateButtonTd);
-
-                        //Delete button for task row.
-                        var delButtonTd = createDeleteButton(this.id);
-                        row.appendChild(delButtonTd);
-
+                        var row = createRow(this.id, this.name, this.startingDate, this.endingDate);
                         document.getElementById("tbody").appendChild(row);
                     }
                 );
             },
             error: function () {
-                alert("Oops!");
+                alert("Failed to retrieve tasks! Try again.");
             }
         }
     );
 }
 
-//Function that creates update button
-function createUpdateButton(id) {
-    var updateButtonTd = document.createElement("TD");
-    updateButtonTd.setAttribute("class", "td");
-    var updateButton = document.createElement("BUTTON");
-    var updateButtonName = document.createTextNode("UPDATE");
-    updateButton.setAttribute("id", id);
-    updateButton.setAttribute("class", "tableUpdateButton");
-    updateButton.setAttribute("onclick", "updateModal(" + updateButton.getAttribute("id") + ")");
-    updateButton.appendChild(updateButtonName);
-    updateButtonTd.appendChild(updateButton);
+//Creates a table row with all the necessary elements.
+function createRow(id, name, startingDate, endingDate){
+    var row = document.createElement("TR");
+    row.setAttribute("id", id);
+    row.setAttribute("class", "tr");
+    row.setAttribute("onClick", "getSingleTask(" + row.getAttribute("id") + ")");
 
-    return updateButtonTd;
+    var nameTd = createTD("class", "td", name);
+    row.appendChild(nameTd);
+
+    var sDateTd = createTD("class", "td", startingDate);
+    row.appendChild(sDateTd);
+
+    var eDateTd = createTD("class", "td", endingDate);
+    row.appendChild(eDateTd);
+
+    var updateButtonTd = createButton(this.id, "UPDATE");
+    row.appendChild(updateButtonTd);
+
+    var delButtonTd = createButton(this.id, "DELETE");
+    row.appendChild(delButtonTd);
+
+    return row;
 }
 
-//Function that creates delete button
-function createDeleteButton(id) {
-    var delButtonTd = document.createElement("TD");
-    delButtonTd.setAttribute("class", "td");
-    var deleteCurrent = document.createElement("BUTTON");
-    var deleteButtonName = document.createTextNode("DELETE");
-    deleteCurrent.setAttribute("id", id);
-    deleteCurrent.setAttribute("class", "tableDeleteButton");
-    deleteCurrent.setAttribute("onclick", "deleteTask(" + deleteCurrent.getAttribute("id") + ")");
-    deleteCurrent.appendChild(deleteButtonName);
-    delButtonTd.appendChild(deleteCurrent);
+//Function that creates a button
+function createButton(id, buttonType) {
+    var onClickFunction;
+    var buttonClass;
 
-    return delButtonTd;
+    var buttonTd = document.createElement("TD");
+    buttonTd.setAttribute("class", "td");
+    var button = document.createElement("BUTTON");
+    var buttonName = document.createTextNode(buttonType);
+    button.setAttribute("id", id);
+    if(buttonType === "UPDATE"){
+        onClickFunction = "updateModal(" + button.getAttribute("id") + ")";
+        buttonClass = "tableUpdateButton";
+    } else {
+        onClickFunction = "deleteTask(" + button.getAttribute("id") + ")";
+        buttonClass = "tableDeleteButton"
+    }
+    button.setAttribute("class", buttonClass);
+    button.setAttribute("onclick", onClickFunction);
+    button.appendChild(buttonName);
+    buttonTd.appendChild(button);
+
+    return buttonTd;
 }
 
 //Function that creates a TD with 1 attribute value
@@ -88,11 +84,17 @@ function createTD(attributeType, attributeValue, value) {
     return td;
 }
 
+//creates date string from input
+function createDateString(date, hours, minutes){
+    var date = date + " " + hours + ":" + minutes;
+    return date;
+}
+
 //Validates and creates data for a new task
 function createTask(name, description, startDate, startHours, startMinutes, endDate, endHours, endMinutes) {
     if (startDate !== "" && endDate !== "" && name !== "" && description !== "") {
-        var startingDateAndTime = startDate + " " + startHours + ":" + startMinutes;
-        var endingDateAndTime = endDate + " " + endHours + ":" + endMinutes;
+        var startingDateAndTime = createDateString(startDate, startHours, startMinutes);
+        var endingDateAndTime = createDateString(endDate, endHours, endMinutes);
 
         createAjax(name, description, startingDateAndTime, endingDateAndTime);
     } else {
@@ -116,139 +118,38 @@ function updateTask(name, description, startDate, startHours, startMinutes, endD
 
 //Listener
 //Controls slider and value output for create a new task starting time slider
-function createStartSlider() {
-    var slider = document.getElementById("hourRangeStart");
-    var output = document.getElementById("hourValueStart");
-    var amOrPm = document.getElementById("timeOfDayCreateStart");
-    output.innerHTML = slider.value;
+function createSlider(sliderh, valueh, sliderm, valuem, timeOfDay) {
+    var slider = document.getElementById(sliderh);
+    var output = document.getElementById(valueh);
+    var amOrPm = document.getElementById(timeOfDay);
+    output.innerText = slider.value;
 
     slider.oninput = function () {
         if (this.value.length === 1) {
-            output.innerHTML = 0 + this.value;
+            output.innerText = 0 + this.value;
         } else {
-            output.innerHTML = this.value;
+            output.innerText = this.value;
         }
         if (this.value < 12) {
-            amOrPm.innerHTML = "  AM";
+            amOrPm.innerText = "  AM";
         } else {
-            amOrPm.innerHTML = "  PM";
+            amOrPm.innerText = "  PM";
         }
     };
 
-    var slider2 = document.getElementById("minuteRangeStart");
-    var output2 = document.getElementById("minuteValueStart");
-    output2.innerHTML = slider2.value;
+    var slider2 = document.getElementById(sliderm);
+    var output2 = document.getElementById(valuem);
+    output2.innerText = slider2.value;
 
     slider2.oninput = function () {
         if (this.value.length === 1) {
-            output2.innerHTML = 0 + this.value;
+            output2.innerText = 0 + this.value;
         } else {
-            output2.innerHTML = this.value;
+            output2.innerText = this.value;
         }
     }
 }
 
-//Listener
-//Controls slider and value output for create a new task ending time slider
-function createEndSlider() {
-    var slider = document.getElementById("hourRangeEnd");
-    var output = document.getElementById("hourValueEnd");
-    var amOrPm = document.getElementById("timeOfDayCreateEnd");
-    output.innerHTML = slider.value;
-
-    slider.oninput = function () {
-        if (this.value.length === 1) {
-            output.innerHTML = 0 + this.value;
-        } else {
-            output.innerHTML = this.value;
-        }
-        if (this.value < 12) {
-            amOrPm.innerHTML = "  AM";
-        } else {
-            amOrPm.innerHTML = "  PM";
-        }
-    };
-
-    var slider2 = document.getElementById("minuteRangeEnd");
-    var output2 = document.getElementById("minuteValueEnd");
-    output2.innerHTML = slider2.value;
-
-    slider2.oninput = function () {
-        if (this.value.length === 1) {
-            output2.innerHTML = 0 + this.value;
-        } else {
-            output2.innerHTML = this.value;
-        }
-    }
-}
-
-//Listener
-//Controls update task start time slider
-function updateStartSlider() {
-    var slider = document.getElementById("hourRangeStartUpdate");
-    var output = document.getElementById("hourValueStartUpdate");
-    var amOrPm = document.getElementById("timeOfDayUpdateStart");
-    output.innerHTML = slider.value;
-
-    slider.oninput = function () {
-        if (this.value.length === 1) {
-            output.innerHTML = 0 + this.value;
-        } else {
-            output.innerHTML = this.value;
-        }
-        if (this.value < 12) {
-            amOrPm.innerHTML = "  AM";
-        } else {
-            amOrPm.innerHTML = "  PM";
-        }
-    };
-
-    var slider2 = document.getElementById("minuteRangeStartUpdate");
-    var output2 = document.getElementById("minuteValueStartUpdate");
-    output2.innerHTML = slider2.value;
-
-    slider2.oninput = function () {
-        if (this.value.length === 1) {
-            output2.innerHTML = 0 + this.value;
-        } else {
-            output2.innerHTML = this.value;
-        }
-    }
-}
-
-//Listener
-//Controls update task end time slider
-function updateEndSlider() {
-    var slider = document.getElementById("hourRangeEndUpdate");
-    var output = document.getElementById("hourValueEndUpdate");
-    var amOrPm = document.getElementById("timeOfDayUpdateEnd");
-    output.innerHTML = slider.value;
-
-    slider.oninput = function () {
-        if (this.value.length === 1) {
-            output.innerHTML = 0 + this.value;
-        } else {
-            output.innerHTML = this.value;
-        }
-        if (this.value < 12) {
-            amOrPm.innerHTML = "  AM";
-        } else {
-            amOrPm.innerHTML = "  PM";
-        }
-    };
-
-    var slider2 = document.getElementById("minuteRangeEndUpdate");
-    var output2 = document.getElementById("minuteValueEndUpdate");
-    output2.innerHTML = slider2.value;
-
-    slider2.oninput = function () {
-        if (this.value.length === 1) {
-            output2.innerHTML = 0 + this.value;
-        } else {
-            output2.innerHTML = this.value;
-        }
-    }
-}
 
 //Listener
 //Deletes a task by ID.
@@ -336,15 +237,13 @@ function createAjax(name, description, startingDateAndTime, endingDateAndTime) {
 //Listener
 //For single task modal control
 function getSingleTask(id) {
-
-    var modal2 = document.getElementById("modalForm");
-
-    if (modal2.style.display === "block") {
+    if (deleteCalled === true) {
+        deleteCalled = false;
         return;
     }
 
-    if (deleteCalled === true) {
-        deleteCalled = false;
+    var modal2 = document.getElementById("modalForm");
+    if (modal2.style.display === "block") {
         return;
     }
 
@@ -370,12 +269,10 @@ function getSingleTask(id) {
 
     var modal = document.getElementById("modalDisplay");
     modal.style.display = "block";
-    event.stopPropagation();
-
 }
 
 //Listener
-//For task update modal control
+//Controlling modal display when clicking on "update"
 function updateModal(id) {
     var modal = document.getElementById("modalForm");
     modal.style.display = "block";
@@ -383,33 +280,18 @@ function updateModal(id) {
 }
 
 //Listener
-//For task creation modal control
+//Controlling modal display when clicking on "create"
 function createTaskModal() {
     var modal = document.getElementById("modalFormCreate");
     modal.style.display = "block";
 }
 
 //Listener
-//For task update modal closing span
-function onClickSpan() {
-    var modal = document.getElementById("modalForm");
+//Controlling modal display when pressing "x"
+function onClickSpan(spanId) {
+    var modal = document.getElementById(spanId);
     modal.style.display = "none";
 
-}
-
-//Listener
-//For task creation modal closing span
-function onClickCreateSpan() {
-    var modalCreate = document.getElementById("modalFormCreate");
-    modalCreate.style.display = "none";
-
-}
-
-//Listener
-//For single task modal closing span
-function onClickGetSpan() {
-    var modal = document.getElementById("modalDisplay");
-    modal.style.display = "none";
 }
 
 

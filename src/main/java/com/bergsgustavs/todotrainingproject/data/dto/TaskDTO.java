@@ -14,6 +14,16 @@ public class TaskDTO implements Serializable {
 
     private String endingDate;
 
+    public TaskDTO(String name, String description, String startingDate, String endingDate) {
+        this.name = name;
+        this.description = description;
+        this.startingDate = startingDate;
+        this.endingDate = endingDate;
+    }
+
+    public TaskDTO(){
+
+    }
 
     public Long getId() {
         return id;

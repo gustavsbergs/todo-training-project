@@ -1,7 +1,5 @@
 package com.bergsgustavs.todotrainingproject.data.domain;
 
-
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -106,13 +104,12 @@ public class Task implements Comparable<Task>{
 
     @Override
     public String toString() {
-        return "Task{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", startingDate=" + startingDate +
-                ", endingDate=" + endingDate +
-                '}';
+        StringBuilder str = new StringBuilder();
+        str.append("Id: " + id);
+        str.append(" Name " + name);
+        str.append(" Description: " + description);
+
+        return str.toString();
     }
 
     @Override
