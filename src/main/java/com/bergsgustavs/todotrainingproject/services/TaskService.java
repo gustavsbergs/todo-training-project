@@ -12,7 +12,7 @@ public class TaskService {
 
     private TaskRepository taskRepository;
 
-    public TaskService(TaskRepository taskRepository) {
+    public TaskService(final TaskRepository taskRepository) {
         this.taskRepository = taskRepository;
     }
 
@@ -22,13 +22,7 @@ public class TaskService {
      * @return task
      */
     public Task getTask(final Long taskId) throws Exception {
-
-        final Task task = taskRepository.findById(taskId).orElse(null);
-
-        if(task == null){
-            throw new Exception("Task not found!");
-        }
-        return task;
+        return taskRepository.findById(taskId).orElseThrow(() ->new Exception("Task not found!"));
     }
 
     /** Creates new tasks using given values
@@ -47,7 +41,7 @@ public class TaskService {
      * @return Task
      * @throws Exception
      */
-    public Task updateTask(Long id, Task task) throws Exception {
+    public Task updateTask(final Long id, final Task task) throws Exception {
 
         final Task taskToUpdate = taskRepository.getOne(id);
 
@@ -59,9 +53,9 @@ public class TaskService {
         taskToUpdate.setStartingDate(task.getStartingDate());
         taskToUpdate.setEndingDate(task.getEndingDate());
 
-        taskRepository.save(taskToUpdate);
+        createTask(taskToUpdate);
 
-        return taskRepository.findById(id).orElse(null);
+        return taskRepository.findById(id).orElseThrow(()->new Exception("Task not found!"));
     }
 
     /**
@@ -70,25 +64,17 @@ public class TaskService {
      * @throws Exception
      */
     public void deleteTask(final Long id) throws Exception {
-
-        final Task taskToDelete = taskRepository.findById(id).orElse(null);
-
-        if(taskToDelete == null){
-            throw new Exception("Task not found or already deleted!");
-        }
+        taskRepository.findById(id).orElseThrow(() -> new Exception("Task not found or already deleted!"));
         taskRepository.deleteById(id);
     }
 
     /**
      * Method that returns an ArrayList of all tasks!
      */
-    public List<Task> returnAll () throws Exception {
-        List<Task> allTasks = taskRepository.findAll();
-        sortByDate(allTasks);
+    public List<Task> returnAll () {
+        final List<Task> allTasks = taskRepository.findAll();
+        Collections.sort(allTasks);
         return allTasks;
     }
 
-    public void sortByDate (final List<Task> tasks) {
-       Collections.sort(tasks);
-    }
 }

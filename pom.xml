@@ -69,6 +69,18 @@
 					<webappDirectory>/sample/servlet/container/deploy/directory</webappDirectory>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.8.3</version>
+				<configuration>
+					<excludes>
+						<exclude>**/bergsgustavs/todotrainingproject/data/domain/*</exclude>
+						<exclude>**/bergsgustavs/todotrainingproject/data/dto/*</exclude>
+						<exclude>**/bergsgustavs/todotrainingproject/data/repositories/*</exclude>
+					</excludes>
+				</configuration>
+			</plugin>
 		</plugins>
 		<resources>
 			<resource>
@@ -77,3 +89,4 @@
 		</resources>
 	</build>
 </project>
+

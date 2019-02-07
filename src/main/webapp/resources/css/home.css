@@ -231,7 +231,6 @@
 
 .slider::-webkit-slider-thumb {
     -webkit-appearance: none;
-    appearance: none;
     width: 7px;
     height: 7px;
     border-radius: 50%;
