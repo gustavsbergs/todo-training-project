@@ -3,7 +3,6 @@ var deleteCalled = false;
 
 //Retrieves tasks from database and populates a dynamic table based on the amount of entries
 function retrieveTask() {
-
     $.ajax(
         {
             url: "http://localhost:8080/tasks",
@@ -12,7 +11,6 @@ function retrieveTask() {
             success: function (data) {
                 $(data).each(
                     function () {
-
                         var row = createRow(this.id, this.name, this.startingDate, this.endingDate);
                         document.getElementById("tbody").appendChild(row);
                     }
@@ -26,7 +24,7 @@ function retrieveTask() {
 }
 
 //Creates a table row with all the necessary elements.
-function createRow(id, name, startingDate, endingDate){
+function createRow(id, name, startingDate, endingDate) {
     var row = document.createElement("TR");
     row.setAttribute("id", id);
     row.setAttribute("class", "tr");
@@ -34,17 +32,13 @@ function createRow(id, name, startingDate, endingDate){
 
     var nameTd = createTD("class", "td", name);
     row.appendChild(nameTd);
-
     var sDateTd = createTD("class", "td", startingDate);
     row.appendChild(sDateTd);
-
     var eDateTd = createTD("class", "td", endingDate);
     row.appendChild(eDateTd);
-
-    var updateButtonTd = createButton(this.id, "UPDATE");
+    var updateButtonTd = createButton(id, "UPDATE");
     row.appendChild(updateButtonTd);
-
-    var delButtonTd = createButton(this.id, "DELETE");
+    var delButtonTd = createButton(id, "DELETE");
     row.appendChild(delButtonTd);
 
     return row;
@@ -60,7 +54,7 @@ function createButton(id, buttonType) {
     var button = document.createElement("BUTTON");
     var buttonName = document.createTextNode(buttonType);
     button.setAttribute("id", id);
-    if(buttonType === "UPDATE"){
+    if (buttonType === "UPDATE") {
         onClickFunction = "updateModal(" + button.getAttribute("id") + ")";
         buttonClass = "tableUpdateButton";
     } else {
@@ -85,7 +79,7 @@ function createTD(attributeType, attributeValue, value) {
 }
 
 //creates date string from input
-function createDateString(date, hours, minutes){
+function createDateString(date, hours, minutes) {
     var date = date + " " + hours + ":" + minutes;
     return date;
 }
@@ -291,7 +285,6 @@ function createTaskModal() {
 function onClickSpan(spanId) {
     var modal = document.getElementById(spanId);
     modal.style.display = "none";
-
 }
 
 
