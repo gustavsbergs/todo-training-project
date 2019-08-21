@@ -30,24 +30,17 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 public class TaskControllerTest {
 
+    private DTOMapper dtoMapper = new DTOMapper();
+    private MockMvc mockMvc;
+    final private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+    private Date sDate1;
+    private Date eDate1;
+    private Task task1;
+    private TaskDTO task1DTO;
+    private ObjectMapper mapper;
+
     @Mock
     private TaskService taskService;
-
-    private DTOMapper dtoMapper = new DTOMapper();
-
-    private MockMvc mockMvc;
-
-    final private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-
-    private Date sDate1;
-
-    private Date eDate1;
-
-    private Task task1;
-
-    private TaskDTO task1DTO;
-
-    private ObjectMapper mapper;
 
     @Before
     public void setUp() throws ParseException {

@@ -14,33 +14,21 @@ public class DTOMapper {
 
     public TaskDTO TaskToDTO(final Task task) {
         final TaskDTO mappedTask = new TaskDTO();
-
         mappedTask.setId(task.getId());
-
         mappedTask.setName(task.getName());
-
         mappedTask.setDescription(task.getDescription());
-
         mappedTask.setStartingDate(simpleDateFormat.format(task.getStartingDate()));
-
         mappedTask.setEndingDate(simpleDateFormat.format(task.getEndingDate()));
-
         return mappedTask;
     }
 
     public Task DTOToTask(final TaskDTO task) throws ParseException {
         final Task mappedTask = new Task();
-
         mappedTask.setId(task.getId());
-
         mappedTask.setName(task.getName());
-
         mappedTask.setDescription(task.getDescription());
-
         mappedTask.setStartingDate(simpleDateFormat.parse(task.getStartingDate()));
-
         mappedTask.setEndingDate(simpleDateFormat.parse(task.getEndingDate()));
-
         return mappedTask;
     }
 }
