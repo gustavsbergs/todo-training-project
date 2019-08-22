@@ -1,6 +1,5 @@
 var currentToUpdate = 0;
 var deleteCalled = false;
-var restUrl;
 
 //Retrieves tasks from database and populates a dynamic table based on the amount of entries
 function retrieveTask() {
@@ -222,7 +221,7 @@ function createAjax(name, description, startingDateAndTime, endingDateAndTime) {
                 window.location = restUrl + 'home';
             },
             error: function () {
-                alert("Oops! Something went wrong! Couldn't call: " + restUrl);
+                alert("Oops! Something went wrong! Couldn't call");
             }
 
         }

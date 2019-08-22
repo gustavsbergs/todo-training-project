@@ -23,7 +23,9 @@
     <spring:url value="/resources/js/ajax.js" var="ajaxJs"/>
 
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script id="restUrl">var restUrl = "${restUrl}"</script>
     <script type="text/javascript" src="${ajaxJs}"></script>
+    <input type="hidden" id="restUrl" value='${restUrl}'/>
     <script type="text/javascript">
         $(document).ready(function () {
             retrieveTask();
