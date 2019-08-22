@@ -1,10 +1,10 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+<%@ page contentType="text/html; charset=ISO-8859-1"
          pageEncoding="ISO-8859-1" %>
 <!DOCTYPE html>
 <html>
 <div>
-<h1 class="header">
+    <h1 class="header">
     <pre>
   _____ _    _  _____ _______  __      _______             __  __           ___________ _   _  _____    _______        _____ _  __   _____  _               _   _ _   _ ______ _____
   / ____| |  | |/ ____|__   __|/\ \    / / ____|      /\   |  \/  |   /\    |___  /_   _| \ | |/ ____|  |__   __|/\    / ____| |/ /  |  __ \| |        /\   | \ | | \ | |  ____|  __ \
@@ -14,7 +14,7 @@
   \______|\____/|_____/   |_/_/    \_\/  |_____/   /_/    \_\_|  |_/_/    \_\/_____|_____|_| \_|\_____|     |_/_/    \_\_____/|_|\_\  |_|    |______/_/    \_\_| \_|_| \_|______|_|  \_\
 
     </pre>
-</h1>
+    </h1>
 </div>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
@@ -22,7 +22,7 @@
 
     <spring:url value="/resources/js/ajax.js" var="ajaxJs"/>
 
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script id="restUrl">var restUrl = "${restUrl}"</script>
     <script type="text/javascript" src="${ajaxJs}"></script>
     <input type="hidden" id="restUrl" value='${restUrl}'/>
@@ -34,17 +34,17 @@
     <title>Task planner</title>
 </head>
 <body class="documentBody">
-<%@include file="table.jsp"%>
+<%@include file="table.jsp" %>
 <br>
 <button class="createNewButton" name="Create a NEW task!" onclick="createTaskModal();">CREATE TASK</button>
 <div id="modalForm" class="modal">
-<%@include file="updateModal.jsp"%>
+    <%@include file="updateModal.jsp" %>
 </div>
 <div id="modalFormCreate" class="modalCreate">
-<%@include file="createModal.jsp"%>
+    <%@include file="createModal.jsp" %>
 </div>
 <div id="modalDisplay" class="modal">
-<%@include file="rowModal.jsp"%>
+    <%@include file="rowModal.jsp" %>
 </div>
 </body>
 </html>
