@@ -189,7 +189,7 @@ function updateAjax(name, description, startingDate, endingDate) {
             }),
             success: function () {
                 alert("Task updated!");
-                window.location = restUrl+ 'home';
+                window.location = restUrl + 'home';
             },
             error: function () {
                 alert("Oops! Something went wrong!");
