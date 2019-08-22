@@ -1,11 +1,12 @@
 var currentToUpdate = 0;
 var deleteCalled = false;
+var restUrl;
 
 //Retrieves tasks from database and populates a dynamic table based on the amount of entries
 function retrieveTask() {
     $.ajax(
         {
-            url: "http://localhost:8080/tasks",
+            url: restUrl + "tasks",
             type: "GET",
             dataType: "JSON",
             success: function (data) {
@@ -21,6 +22,10 @@ function retrieveTask() {
             }
         }
     );
+}
+
+function setRestUrl(url) {
+    restUrl = url;
 }
 
 //Creates a table row with all the necessary elements.
@@ -148,7 +153,7 @@ function createSlider(sliderh, valueh, sliderm, valuem, timeOfDay) {
 //Listener
 //Deletes a task by ID.
 function deleteTask(id) {
-    var url = "http://localhost:8080/tasks/delete/" + id;
+    var url = restUrl + "tasks/delete/" + id;
     deleteCalled = true;
     if (confirm("Are you sure you want to delete this task? If yes, press 'Ok'")) {
         $.ajax(
@@ -172,7 +177,7 @@ function deleteTask(id) {
 //Listener
 //Updates a task with new name, description and date/time parameters
 function updateAjax(name, description, startingDate, endingDate) {
-    var url = "http://localhost:8080/tasks/update/" + currentToUpdate;
+    var url = restUrl + "tasks/update/" + currentToUpdate;
     $.ajax(
         {
             url: url,
@@ -204,7 +209,7 @@ function updateAjax(name, description, startingDate, endingDate) {
 function createAjax(name, description, startingDateAndTime, endingDateAndTime) {
     $.ajax(
         {
-            url: "http://localhost:8080/tasks/new",
+            url: restUrl + "tasks/new",
             type: "POST",
             dataType: "JSON",
             headers: {
@@ -245,7 +250,7 @@ function getSingleTask(id) {
     var taskDescription = "";
     $.ajax(
         {
-            url: "http://localhost:8080/tasks/" + id,
+            url: restUrl + "tasks/" + id,
             type: "GET",
             dataType: "JSON",
             success: function (data) {

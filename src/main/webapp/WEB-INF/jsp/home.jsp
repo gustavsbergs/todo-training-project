@@ -26,6 +26,7 @@
     <script type="text/javascript" src="${ajaxJs}"></script>
     <script type="text/javascript">
         $(document).ready(function () {
+            setRestUrl(${restUrl});
             retrieveTask();
         });
     </script>
