@@ -226,7 +226,7 @@ function createAjax(name, description, startingDateAndTime, endingDateAndTime) {
                 window.location = 'http://localhost:8080/home';
             },
             error: function () {
-                alert("Oops! Something went wrong!");
+                alert("Oops! Something went wrong! Couldn't call: " + restUrl);
             }
 
         }
