@@ -26,7 +26,6 @@
     <script type="text/javascript" src="${ajaxJs}"></script>
     <script type="text/javascript">
         $(document).ready(function () {
-            setRestUrl(${restUrl});
             retrieveTask();
         });
     </script>
@@ -35,7 +34,7 @@
 <body class="documentBody">
 <%@include file="table.jsp"%>
 <br>
-<button class="createNewButton" name="Create a NEW task!" onclick="createTaskModal()">CREATE TASK</button>
+<button class="createNewButton" name="Create a NEW task!" onclick="createTaskModal();">CREATE TASK</button>
 <div id="modalForm" class="modal">
 <%@include file="updateModal.jsp"%>
 </div>

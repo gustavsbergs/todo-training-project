@@ -24,10 +24,6 @@ function retrieveTask() {
     );
 }
 
-function setRestUrl(url) {
-    restUrl = url;
-}
-
 //Creates a table row with all the necessary elements.
 function createRow(id, name, startingDate, endingDate) {
     var row = document.createElement("TR");
@@ -194,7 +190,7 @@ function updateAjax(name, description, startingDate, endingDate) {
             }),
             success: function () {
                 alert("Task updated!");
-                window.location = 'http://localhost:8080/home';
+                window.location = restUrl+ 'home';
             },
             error: function () {
                 alert("Oops! Something went wrong!");
@@ -223,7 +219,7 @@ function createAjax(name, description, startingDateAndTime, endingDateAndTime) {
             }),
             success: function () {
                 alert("Task created!");
-                window.location = 'http://localhost:8080/home';
+                window.location = restUrl + 'home';
             },
             error: function () {
                 alert("Oops! Something went wrong! Couldn't call: " + restUrl);
